@@ -11,7 +11,7 @@ import { Employee } from './entities/employee.entity';
       host: 'pg-21495903-employeedemo10000.b.aivencloud.com',
       port: 27587,
       username: 'avnadmin',
-      // password: 'AVNS_Hyt1cIkdkKeGYTuMFiX',
+      password: 'AVNS_Hyt1cIkdkKeGYTuMFiX',
       database: 'defaultdb',
       entities: [Employee],
       synchronize: false,

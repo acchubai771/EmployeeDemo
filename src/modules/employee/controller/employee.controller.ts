@@ -1,16 +1,17 @@
 // src/employee/employee.controller.ts
-import { Controller, Post, Body, Get, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Delete, Query } from '@nestjs/common';
 import { EmployeeService } from '../service/employee.service';
 import { CreateEmployeeDto } from '../dto/create-employee.dto';
 import { IEmployee } from 'src/entities/employee.entity';
+import { PaginationDTO } from '../dto/pagination-employee.dto';
 
 @Controller('employee')
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
-  @Get()
-  findAll(): Promise<IEmployee[]> {
-    return this.employeeService.findAll();
+ @Get()
+  async findAll(@Query() paginationDto: PaginationDTO): Promise<IEmployee[]> {
+  return this.employeeService.findAllWithPagination(paginationDto.page, paginationDto.limit);
   }
 
  @Get(':id')

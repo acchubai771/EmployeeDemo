@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Employee } from 'src/entities/employee.entity';
@@ -22,6 +22,15 @@ export class EmployeeService {
     return data;
   }
 
+  async findAllWithPagination( page: number = 1, limit: number = 10): Promise<IEmployee[]>{
+   const skip = (page - 1) * limit
+   const data = await this.employeeRepository.find({
+    skip: skip,
+    take: limit
+   });
+   return data 
+  }
+
   async findOne(id: number): Promise<IEmployee> {
     const employee = await this.employeeRepository.findOneBy({id});
     if (!employee){
@@ -32,6 +41,9 @@ export class EmployeeService {
   
 
   async remove(id: string) :Promise<void>{
-    await this.employeeRepository.delete(id)
+    const result = await this.employeeRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Employee with ID "${id}" not found.`);
+    }
   }
 }
