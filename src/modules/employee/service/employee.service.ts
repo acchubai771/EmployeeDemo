@@ -26,17 +26,37 @@ export class EmployeeService {
    const skip = (page - 1) * limit
    const data = await this.employeeRepository.find({
     skip: skip,
-    take: limit
+    take: limit,
+    where: {status: 1},
    });
    return data 
   }
 
-  async findOne(id: number): Promise<IEmployee> {
+  async updateStatus (id: string, status: number): Promise<IEmployee>{
     const employee = await this.employeeRepository.findOneBy({id});
+
+  if (!employee) {
+    throw new NotFoundException('Employee with "${id}" not found')
+  }
+  employee.status = status;
+  return this.employeeRepository.save(employee)
+  }
+
+
+  async findOne(id: string): Promise<IEmployee> {
+    const employee = await this.employeeRepository.findOneBy({id, status : 1});
     if (!employee){
       throw new Error(`Employee with id "${id}" not found`)
     }
     return employee 
+  }
+  
+  async findInactiveEmployee(): Promise<IEmployee[]> {
+    return this.employeeRepository.find({
+      where: {status: 0},
+
+    });
+    
   }
   
 
@@ -46,4 +66,5 @@ export class EmployeeService {
       throw new NotFoundException(`Employee with ID "${id}" not found.`);
     }
   }
+  
 }

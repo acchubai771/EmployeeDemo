@@ -2,7 +2,7 @@ export interface IEmployee {
     id: number;
     name: string;
     salary: number;
-    position: string;
-    department: string;
+    position_id: string;
+    department_id: string;
     status: string;
 }

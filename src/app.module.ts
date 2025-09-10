@@ -3,6 +3,9 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmployeeModule } from './modules/employee/module/employee.module';
 import { Employee } from './entities/employee.entity';
+import { Department } from './entities/department.entity';
+import { Position } from './entities/position.entity';
+
 
 @Module({
   imports: [
@@ -13,7 +16,7 @@ import { Employee } from './entities/employee.entity';
       username: 'avnadmin',
       password: 'AVNS_Hyt1cIkdkKeGYTuMFiX',
       database: 'defaultdb',
-      entities: [Employee],
+      entities: [Employee, Department, Position],
       synchronize: false,
       ssl: true,
       extra: {
@@ -23,6 +26,7 @@ import { Employee } from './entities/employee.entity';
       },
     }),
     EmployeeModule,
+    
   ],
 })
 export class AppModule {}

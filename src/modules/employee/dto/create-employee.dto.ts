@@ -18,11 +18,11 @@ export class CreateEmployeeDto {
 
     @IsString()
     @IsNotEmpty()
-    position: string;
+    position_id: string;
 
     @IsString()
     @IsNotEmpty()
-    department: string;
+    department_id: string;
 
     @IsNumber()
     @IsNotEmpty()

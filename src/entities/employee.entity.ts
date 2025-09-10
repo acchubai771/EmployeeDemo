@@ -1,34 +1,46 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Department } from './department.entity';
+import { Position } from './position.entity';
 
 @Entity('employee')
 export class Employee {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
-  @Column({ type: 'varchar', length: 255 })
-  name: string;
+    @Column({ type: 'varchar', length: 255 })
+    name: string;
 
-  @Column({ type: 'date' })
-  birthday: Date;
+    @Column({ type: 'date' })
+    birthday: Date;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  salary: number;
+    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    salary: number;
 
-  @Column({ type: 'varchar', length: 100 })
-  position: string;
+    @Column({ type: 'smallint', default: 1 })
+    status: number;
+   
+    @Column({ type: 'uuid' })
+    department_id: string;
 
-  @Column({ type: 'varchar', length: 100 })
-  department: string;
+    @Column({ type: 'uuid' })
+    position_id: string;
 
-  @Column({ type: 'smallint', default: 1 })
-  status: number;
+    @ManyToOne(() => Department)
+    @JoinColumn({ name: 'department_id' })
+    department: Department;
+
+    @ManyToOne(() => Position)
+    @JoinColumn({ name: 'position_id' })
+    position: Position;
 }
 // src/entities/employee.entity.ts
+
 export interface IEmployee {
-  id: number;
+  id: string;
   name: string;
   birthday: Date
   salary: number;
-  position: string;
-  department: string;
+  position_id: string;
+  department_id: string;
+  status: number; 
 }
