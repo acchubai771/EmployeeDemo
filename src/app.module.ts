@@ -5,6 +5,10 @@ import { EmployeeModule } from './modules/employee/module/employee.module';
 import { Employee } from './entities/employee.entity';
 import { Department } from './entities/department.entity';
 import { Position } from './entities/position.entity';
+import { DepartmentModule } from './modules/employee/module/department.module';
+import { PositionModule } from './modules/employee/module/position.module';
+
+
 
 
 @Module({
@@ -26,7 +30,10 @@ import { Position } from './entities/position.entity';
       },
     }),
     EmployeeModule,
-    
+    DepartmentModule,
+    PositionModule,
+
   ],
+
 })
 export class AppModule {}
