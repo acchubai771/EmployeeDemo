@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Employee } from 'src/entities/employee.entity';
+import { Employee } from 'src/modules/employee/entities/employee.entity';
 import { CreateEmployeeDto } from '../dto/create-employee.dto';
-import { IEmployee } from 'src/entities/employee.entity';
+import { IEmployee } from 'src/modules/employee/entities/employee.entity';
+import { UpdateEmployeeDTO } from '../dto/update-employee.dto';
 
 @Injectable()
 export class EmployeeService {
@@ -21,16 +22,11 @@ export class EmployeeService {
     const data = await this.employeeRepository.find();
     return data;
   }
-
-  async findAllWithPagination( page: number = 1, limit: number = 10): Promise<IEmployee[]>{
-   const skip = (page - 1) * limit
-   const data = await this.employeeRepository.find({
-    skip: skip,
-    take: limit,
-    where: {status: 1},
-   });
-   return data 
-  }
+  // async update(id: string, dto:UpdateEmployeeDTO){
+  //   const existing = await this.findOneById(id);
+  //   const updated = this.employeeRepository.merge(existing, dto)
+  //   return this.employeeRepository.save(updated)
+  // }
 
   async updateStatus (id: string, status: number): Promise<IEmployee>{
     const employee = await this.employeeRepository.findOneBy({id});
@@ -43,6 +39,7 @@ export class EmployeeService {
   }
 
 
+
   async findOne(id: string): Promise<IEmployee> {
     const employee = await this.employeeRepository.findOneBy({id, status : 1});
     if (!employee){
@@ -51,15 +48,6 @@ export class EmployeeService {
     return employee 
   }
   
-  async findInactiveEmployee(): Promise<IEmployee[]> {
-    return this.employeeRepository.find({
-      where: {status: 0},
-
-    });
-    
-  }
-  
-
   async remove(id: string) :Promise<void>{
     const result = await this.employeeRepository.delete(id);
     if (result.affected === 0) {

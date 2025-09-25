@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Position } from 'src/entities/position.entity';
+import { Position } from 'src/modules/employee/entities/position.entity';
 import { createPositionDto } from '../dto/create-position.dto';
 
 @Injectable()

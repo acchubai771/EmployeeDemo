@@ -2,9 +2,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmployeeModule } from './modules/employee/module/employee.module';
-import { Employee } from './entities/employee.entity';
-import { Department } from './entities/department.entity';
-import { Position } from './entities/position.entity';
+import { Employee } from './modules/employee/entities/employee.entity';
+import { Department } from './modules/employee/entities/department.entity';
+import { Position } from './modules/employee/entities/position.entity';
 import { DepartmentModule } from './modules/employee/module/department.module';
 import { PositionModule } from './modules/employee/module/position.module';
 
