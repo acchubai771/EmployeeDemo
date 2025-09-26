@@ -1,15 +1,13 @@
-// src/app.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmployeeModule } from './modules/employee/module/employee.module';
 import { Employee } from './modules/employee/entities/employee.entity';
 import { Department } from './modules/employee/entities/department.entity';
 import { Position } from './modules/employee/entities/position.entity';
+import { Work } from './modules/employee/entities/work.entity';
 import { DepartmentModule } from './modules/employee/module/department.module';
 import { PositionModule } from './modules/employee/module/position.module';
-
-
-
+import { WorkModule } from './modules/employee/module/work.module';
 
 @Module({
   imports: [
@@ -20,7 +18,7 @@ import { PositionModule } from './modules/employee/module/position.module';
       username: 'avnadmin',
       password: 'AVNS_Hyt1cIkdkKeGYTuMFiX',
       database: 'defaultdb',
-      entities: [Employee, Department, Position],
+      entities: [Employee, Department, Position, Work],
       synchronize: false,
       ssl: true,
       extra: {
@@ -32,8 +30,7 @@ import { PositionModule } from './modules/employee/module/position.module';
     EmployeeModule,
     DepartmentModule,
     PositionModule,
-
+    WorkModule,
   ],
-
 })
 export class AppModule {}

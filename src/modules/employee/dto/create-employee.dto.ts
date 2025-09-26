@@ -1,5 +1,4 @@
-// src/employee/dto/create-employee.dto.ts
-import { IsString, IsNotEmpty, IsDate, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsDate, IsNumber, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateEmployeeDto {
@@ -9,43 +8,10 @@ export class CreateEmployeeDto {
 
     @IsDate()
     @Type(() => Date)
-    @IsNotEmpty()
-    birthday: Date;
+    @IsOptional()
+    birthday?: Date;
 
     @IsNumber()
-    @IsNotEmpty()
-    salary: number;
-
-    @IsString()
-    @IsNotEmpty()
-    position_id: string;
-
-    @IsString()
-    @IsNotEmpty()
-    department_id: string;
-
-    @IsNumber()
-    @IsNotEmpty()
-    status: number;
+    @IsOptional()
+    status?: number;
 }
-
-
-// export class CreateEmployeeDto {
-    
-  
-//     name : string;
-
-//     birthday: Date;
-
-    
-//     salary: number;
-
-  
-//     position: string;
-
-//     department: string;
-
-    
-//     status: number;
-
-// }

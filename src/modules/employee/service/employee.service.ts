@@ -1,10 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Employee } from 'src/modules/employee/entities/employee.entity';
+import { Employee } from '../entities/employee.entity';
 import { CreateEmployeeDto } from '../dto/create-employee.dto';
-import { IEmployee } from 'src/modules/employee/entities/employee.entity';
-import { UpdateEmployeeDTO } from '../dto/update-employee.dto';
+import { UpdateEmployeeDto } from '../dto/update-employee.dto';
 
 @Injectable()
 export class EmployeeService {
@@ -18,41 +17,34 @@ export class EmployeeService {
     return this.employeeRepository.save(newEmployee);
   }
 
-  async findAll(): Promise<IEmployee[]> {
-    const data = await this.employeeRepository.find();
-    return data;
-  }
-  // async update(id: string, dto:UpdateEmployeeDTO){
-  //   const existing = await this.findOneById(id);
-  //   const updated = this.employeeRepository.merge(existing, dto)
-  //   return this.employeeRepository.save(updated)
-  // }
-
-  async updateStatus (id: string, status: number): Promise<IEmployee>{
-    const employee = await this.employeeRepository.findOneBy({id});
-
-  if (!employee) {
-    throw new NotFoundException('Employee with "${id}" not found')
-  }
-  employee.status = status;
-  return this.employeeRepository.save(employee)
+  async findAll(): Promise<Employee[]> {
+    return this.employeeRepository.find();
   }
 
-
-
-  async findOne(id: string): Promise<IEmployee> {
-    const employee = await this.employeeRepository.findOneBy({id, status : 1});
-    if (!employee){
-      throw new Error(`Employee with id "${id}" not found`)
+  async findOne(id: number): Promise<Employee> {
+    const employee = await this.employeeRepository.findOne({ where: { id } });
+    if (!employee) {
+      throw new NotFoundException(`Employee with id "${id}" not found`);
     }
-    return employee 
+    return employee;
   }
-  
-  async remove(id: string) :Promise<void>{
-    const result = await this.employeeRepository.delete(id);
-    if (result.affected === 0) {
-      throw new NotFoundException(`Employee with ID "${id}" not found.`);
+
+  async update(id: number, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
+    const existing = await this.findOne(id);
+    const updated = this.employeeRepository.merge(existing, updateEmployeeDto);
+    return this.employeeRepository.save(updated);
+  }
+
+  async updateStatus(id: number, status: number): Promise<Employee> {
+    const employee = await this.findOne(id);
+    employee.status = status;
+    return this.employeeRepository.save(employee);
+  }
+
+  async remove(id: number): Promise<void> {
+    const result = await this.employeeRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Employee with ID "${id}" not found.`);
     }
   }
-  
 }
